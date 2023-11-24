@@ -32,11 +32,13 @@ public class PlayerMovementTutorial : MonoBehaviour
     Vector3 moveDirection;
 
     Rigidbody rb;
-    public Animator anim;
+    private Animator anim;
+    public int transitionValue;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
         rb.freezeRotation = true;
         readyToJump = true;
     }
@@ -122,7 +124,22 @@ public class PlayerMovementTutorial : MonoBehaviour
     private void UpdateAnimation()
     {
         // Use the "transition" parameter in the Animator to control the animation state
-        int transitionValue = (verticalInput != 0 || horizontalInput != 0) ? 1 : 0;
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            anim.SetTrigger("throw"); // Troque "Throw" pelo nome do parâmetro da transição para a animação de arremesso
+        }
+
+        else if (verticalInput != 0 || horizontalInput != 0)
+        {
+            transitionValue = 1;
+        }
+        else
+        {
+            transitionValue = 0;
+        }
+
         anim.SetInteger("transition", transitionValue);
     }
+
 }
